@@ -37,43 +37,50 @@
     html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
     #map { position:absolute; top:0; bottom:0; right:0; left:0; }
 
-        @media (max-width: 768px) {
-            #map {
-                height: 100vh; /* Adjust the height to take up full screen on mobile */
-            }
-            .leaflet-draw-toolbar a {
-                width: 70px !important;    /* Increase button width */
-                height: 70px !important;   /* Increase button height */
-                line-height: 70px !important;
-            }
-
-            .leaflet-draw-toolbar a span {
-                font-size: 35px !important; /* Increase the icon size */
-            }
-
-            /* Adjust icon for Polygon drawing tool */
-                .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
-                    background-size: 50px 50px !important; /* Increase polygon icon size */
-                }
-
-            /* Adjust padding and layout for a better touch experience */
-                .leaflet-draw-toolbar a {
-                    padding: 15px !important; /* Add more padding for easier tapping */
-                }
-            * Larger toolbar icons */
-        .leaflet-bar a {
-            width: 60px !important;    /* General leaflet control button width */
-            height: 60px !important;   /* General leaflet control button height */
-            font-size: 24px !important; /* Increase leaflet icon size */
-        }
-
-        /* Larger undo/redo icons in draw toolbar */
-        .leaflet-draw-toolbar .leaflet-draw-actions a {
-            width: 60px !important;  /* Width for undo/redo buttons */
-            height: 60px !important; /* Height for undo/redo buttons */
+    /* Targeting mobile devices with a max width of 768px */
+    @media (min-width: 768px) {
+        /* Make the draw toolbar buttons larger */
+        .leaflet-draw-toolbar a {
+            width: 60px !important;   /* Increased width */
+            height: 60px !important;  /* Increased height */
             line-height: 60px !important;
         }
+
+        /* Set a larger background size for icons (like polygon tool) */
+        .leaflet-draw-toolbar a span {
+            font-size: 28px !important;  /* Increase the font size of icons */
+        }
+
+        /* Specifically target the polygon drawing tool */
+        .leaflet-draw-toolbar .leaflet-draw-draw-polygon {
+            background-image: url('polygon.svg');
+            background-size: 700px 700 px; /* Adjust background size */
+            background-repeat: no-repeat; /* Adjust background size */
+            background-position: left; /* Ensure correct icon is visible */
+            width: 20px !important;      /* Button size */
+            height: 20px !important;     /* Button size */
+        }
+
+        /* Adjust padding and spacing for easier touch usage */
+        .leaflet-draw-toolbar a {
+            padding: 10px !important;
+        }
+
+        /* Ensure other Leaflet control icons are also larger */
+        .leaflet-bar a {
+            width: 20px !important;
+            height: 20px !important;
+            font-size: 22px !important; /* Increase icon size */
+        }
+
+        /* For undo/redo buttons */
+        .leaflet-draw-toolbar .leaflet-draw-actions a {
+            width: 20px !important;    /* Set width for undo/redo buttons */
+            height: 2S0px !important;   /* Set height for undo/redo buttons */
+            line-height: 50px !important;
+        }
     }
+
 
 
 
