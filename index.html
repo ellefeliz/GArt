@@ -3,6 +3,8 @@
 <head>
     <title>Grand Rapids Interactive Art Exploration 2024</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
     <!-- Leaflet CSS and JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
@@ -11,6 +13,11 @@
     <!-- Leaflet Draw CSS and JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+    <!-- MarkerCluster CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
 
     <style>
 
@@ -34,11 +41,9 @@
         box-shadow: none;
     }
 
-    html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
-    #map { position:absolute; top:0; bottom:0; right:0; left:0; }
+        /* Targeting mobile devices with a max width of 768px */
+    @media(max-width: 60px) {
 
-    /* Targeting mobile devices with a max width of 768px */
-    @media (max-width: 600px) {
         /* Make the draw toolbar buttons larger */
         .leaflet-draw-toolbar a {
             width: 60px !important;   /* Increased width */
@@ -48,7 +53,8 @@
 
         /* Set a larger background size for icons (like polygon tool) */
         .leaflet-draw-toolbar a span {
-            font-size: 28px !important;  /* Increase the font size of icons */
+            font-size: 40px !important;  /* Increase the font size of icons */
+            padding: 10px !important;
         }
 
         /* Specifically target the polygon drawing tool */
@@ -79,7 +85,16 @@
             height: 2S0px !important;   /* Set height for undo/redo buttons */
             line-height: 50px !important;
         }
+
+        .leaflet-marker-icon {
+        width: 150px important;
+        height: 150px important;
+        transform: translate(-25px, -50px); /* Keep the marker centered */
+        }
+
     }
+
+
 
 
 
@@ -145,6 +160,8 @@
     }).addTo(map);
     }
 
+
+
     function createPopupContent(markerName, description) {
     return `
         <div>
@@ -171,7 +188,7 @@
 
     // Markers for locations
     var markers = [
-                L.marker([42.96053, -85.6673505]).bindPopup("<strong>106 Gallery</strong><br>Address:106 Division Ave S • Grand Rapids").addTo(map),
+            L.marker([42.96053, -85.6673505]).bindPopup("<strong>106 Gallery</strong><br>Address:106 Division Ave S • Grand Rapids").addTo(map),
             L.marker([42.967663, -85.6708815]).bindPopup("<strong>111 Lyon</strong><br>Address:111 Lyon NW • Grand Rapids").addTo(map),
             L.marker([42.9898639, -85.6638875]).bindPopup("<strong>2RST</strong><br>Address:1511 Plainfield Ave NE").addTo(map),
             L.marker([42.96424175, -85.67234099944356]).bindPopup("<strong>AC Hotel Grand Rapids Downtown</strong><br>Address:50 Monroe Ave NW • Grand Rapids").addTo(map),
