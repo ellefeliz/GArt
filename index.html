@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N7TXG1VWM6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-N7TXG1VWM6');
+    </script>
     <title>Grand Rapids Interactive Art Exploration 2024</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -136,12 +145,34 @@
             z-index: 1000;
             border-radius: 3px;
         }
+
+        .recenter-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+        .recenter-btn:hover {
+            background-color: #0056b3;
+        }
+
     </style>
 </head>
 <body>
     <div id="map"></div>
+    <button class="recenter-btn" id="recenterBtn" style="display:none;">Recenter to Current Location</button>
 
     <script>
+
+
     // Initialize the map
     var map = L.map('map', {
     touchZoom: true,
@@ -355,6 +386,9 @@
         markerMap.set(marker.getPopup().getContent(), marker);
     });
 
+    // Add the button behavior
+    var recenterBtn = document.getElementById('recenterBtn');
+
     // Leaflet Draw for drawing polygons
     var drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
@@ -525,6 +559,16 @@
             }
         }
     });
+
+
+
+
+    var currentLocationIcon = L.divIcon({
+    className: 'blinking-marker',
+    iconSize: [20, 20],
+    popupAnchor: [0, -10]
+    });
+
 
     function isMobile() {
         return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
