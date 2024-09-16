@@ -52,7 +52,9 @@
 
         /* Targeting mobile devices with a max width of 768px */
     @media(max-width: 60px) {
-
+        .leaflet-tooltip {
+        font-size: 1.5em;
+        }
         /* Make the draw toolbar buttons larger */
         .leaflet-draw-toolbar a {
             width: 60px !important;   /* Increased width */
@@ -394,20 +396,24 @@ L.marker([42.9589933, -85.667554]).bindTooltip("<strong>Zabház </strong><br>Add
     marker.on('mouseover', function () {
         this.openTooltip();  // Open tooltip when hovered
     });
-    marker.on('mouseout', function () {
-        this.closeTooltip(); // Close tooltip when hover ends
+     marker.on('mouseout', function () {
+        setTimeout(() => {
+            this.closeTooltip(); // Close tooltip after a delay
+        }, 500);
     });
 
-    // For mobile touch support
-    marker.on('touchstart', function (e) {
-        e.preventDefault(); // Prevent default behavior
-        this.openTooltip(); // Open tooltip on touch
+    // Mobile: Handle touchstart for hover-like behavior
+    marker.on('touchstart', function () {
+        this.openTooltip(); // Open tooltip on tap
+
+        // Close tooltip only when user taps elsewhere on the map
+        map.once('click', () => {
+            this.closeTooltip();
+        });
     });
-    marker.on('touchend', function (e) {
-        e.preventDefault(); // Prevent default behavior
-        this.closeTooltip(); // Close tooltip on touch end
-    });
-    });
+});
+
+
 
 
 
@@ -547,7 +553,7 @@ L.marker([42.9589933, -85.667554]).bindTooltip("<strong>Zabház </strong><br>Add
         // List the names of the markers inside the polygon
         if (insideMarkers.length > 0) {
             var markerList = insideMarkers.map(function (marker) {
-                return '<a href="#" onclick="highlightMarker(\'' + marker.getPopup().getContent() + '\'); return false;">' + marker.getPopup().getContent() + '</a>';
+                return '<a href="#" onclick="highlightMarker(\'' + marker.getTooltip().getContent() + '\'); return false;">' + marker.getTooltip().getContent() + '</a>';
             }).join('<br>');
 
             // Create or update the popup near the polygon
