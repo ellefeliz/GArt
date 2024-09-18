@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -628,6 +629,36 @@ function openLink(url) {
     var markersCluster = L.markerClusterGroup();
     markers.forEach(marker => markersCluster.addLayer(marker));
     map.addLayer(markersCluster);
+
+
+
+map.locate({ setView: false, maxZoom: 16 });
+map.on('locationfound', function (e) {
+    currentLat = e.latitude;
+    currentLng = e.longitude;
+
+});
+
+
+    // Create a custom control for recentering the map
+const recenterButton = L.control({ position: 'topright' });
+
+recenterButton.onAdd = function (map) {
+    const div = L.DomUtil.create('div', 'recenter-button');
+    div.innerHTML = '<button style="background-color: white; border: none; padding: 5px; cursor: pointer;">Recenter</button>';
+    div.style.backgroundColor = 'white';
+    div.style.padding = '5px';
+
+    // Add click event to recenter the map when button is clicked
+    L.DomEvent.on(div, 'click', function (e) {
+        map.setView([currentLat, currentLng], 16); // Recenter the map
+    });
+
+    return div;
+};
+
+// Add the recenter button to the map
+recenterButton.addTo(map);
 
 
 
