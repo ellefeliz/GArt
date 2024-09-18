@@ -448,6 +448,13 @@ function openLink(url) {
     // Handle current location and updates
     var currentLocationMarker = null;
 
+    var userMovedMap = false;  // To track if the user manually moves the map
+    var currentLat, currentLng;  // To store the user's current location
+
+    map.on('movestart', function () {
+    userMovedMap = true;  // Set flag to true when the user moves the map
+    });
+
     function updateLocation(position) {
         var latLng = L.latLng(position.coords.latitude, position.coords.longitude);
 
@@ -465,6 +472,9 @@ function openLink(url) {
 
         // Add new location marker
         currentLocationMarker = L.marker(latLng, { icon: blinkingIcon }).bindTooltip("You are here").addTo(map);
+        if (!userMovedMap) {
+            map.setView(latLng, 16);
+        }
         //map.setView(latLng, 15); // Center the map on the current location
     }
 
