@@ -221,8 +221,7 @@
     if (navigator.geolocation) {
     navigator.geolocation.watchPosition(updateLocation, onLocationError, {
         enableHighAccuracy: true,
-        maximumAge: 5000,
-        timeout: 20000
+        maximumAge: 5000
     });
     } else {
         alert("Geolocation is not supported by this browser.");
@@ -621,45 +620,44 @@ function openLink(url) {
     map.addLayer(markersCluster);
 
 
-var userMovedMap = false; // Track if user has moved the map
+var userMovedMap = false;  // To track if the user manually moves the map
+var currentLat, currentLng;  // To store the user's current location
 
-// Detect if the user manually pans or zooms the map
+// Detect when the user manually pans or zooms the map
 map.on('movestart', function () {
-    userMovedMap = true;  // Set flag to true when user moves the map
+    userMovedMap = true;  // Set flag to true when the user moves the map
 });
 
-// Geolocation to track current location
-map.locate({setView: true, maxZoom: 16, watch: true});
+// Function to track the user's location once and store it
+map.locate({setView: true, maxZoom: 16, watch: false});
 
 map.on('locationfound', function (e) {
+    currentLat = e.latlng.lat;
+    currentLng = e.latlng.lng;
     var radius = e.accuracy / 2;
-    var userLat = e.latlng.lat;
-    var userLng = e.latlng.lng;
 
-    // If the user hasn't manually moved the map, then recenter it
+    // If the user hasn't moved the map, center it on the user's location
     if (!userMovedMap) {
-        map.setView(e.latlng, 16);  // Only set the view if the map hasn't been moved manually
+        map.setView([currentLat, currentLng], 16);
     }
 
-    //L.marker(e.latlng).addTo(map)
-    //    .bindPopup("You are within " + radius + " meters from this point").openPopup();
+    // Add marker and circle at the user's location
 
-    L.circle(e.latlng, radius).addTo(map);
 });
 
-// Function to manually recenter map using a button
-function recenterMap(lat, lng) {
+// Function to manually recenter the map
+function recenterMap() {
     userMovedMap = false;  // Reset the user move flag
-    map.setView([lat, lng], 16); // Recenter the map
+    map.setView([currentLat, currentLng], 16);  // Recenter the map on current location
 }
 
-// Add a recenter button for manual recentering
-<!--var recenterButton = L.control({position: 'topleft'});-->
-<!--recenterButton.onAdd = function () {-->
-<!--    var div = L.DomUtil.create('div', 'recenter-button');-->
-<!--    div.innerHTML = '<button onclick="recenterMap(latLng, 15)">Recenter</button>';-->
-<!--    return div;-->
-<!--};-->
-<!--recenterButton.addTo(map);-->
+// Add a button to manually recenter the map
+var recenterButton = L.control({position: 'topleft'});
+recenterButton.onAdd = function () {
+    var div = L.DomUtil.create('div', 'recenter-button');
+    div.innerHTML = '<button onclick="recenterMap()" style="font-size:18px;padding:5px;">Recenter</button>';
+    return div;
+};
+recenterButton.addTo(map);
 
 </script>
