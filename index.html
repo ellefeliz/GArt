@@ -620,47 +620,7 @@ function openLink(url) {
     map.addLayer(markersCluster);
 
 
-// Variable to track if the user manually moves the map
-let userMovedMap = false;
-let currentLat, currentLng;
 
-// Function to recenter map when button is clicked
-function recenterMap() {
-    if (currentLat && currentLng) {
-        map.setView([currentLat, currentLng], 16); // Adjust zoom level as needed
-        userMovedMap = false; // Allow recentering if needed later
-    }
-}
 
-// Use this for one-time location tracking (not continuous)
-map.locate({ setView: true, maxZoom: 16 }); // Only locate once
-
-// Handle the location found event
-map.on('locationfound', function (e) {
-    currentLat = e.latitude;
-    currentLng = e.longitude;
-    map.setView([currentLat, currentLng], 16); // Adjust zoom level if needed
-});
-
-// Add a 'movestart' listener to track if the user manually moves the map
-map.on('movestart', function () {
-    userMovedMap = true;
-});
-
-// Create a custom control button to manually recenter the map
-const recenterButton = L.control({ position: 'topright' });
-recenterButton.onAdd = function () {
-    const div = L.DomUtil.create('div', 'recenter-button');
-    div.innerHTML = '<button>Recenter</button>';
-    div.style.backgroundColor = 'white';
-    div.style.padding = '5px';
-    L.DomEvent.on(div, 'click', function () {
-        recenterMap(); // Call the recenter function when button is clicked
-    });
-    return div;
-};
-
-// Add the recenter button to the map
-recenterButton.addTo(map);
 
 </script>
