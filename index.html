@@ -465,7 +465,7 @@ function openLink(url) {
 
         // Add new location marker
         currentLocationMarker = L.marker(latLng, { icon: blinkingIcon }).bindTooltip("You are here").addTo(map);
-        map.setView(latLng, 15); // Center the map on the current location
+        //map.setView(latLng, 15); // Center the map on the current location
     }
 
     function onLocationError(error) {
