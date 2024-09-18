@@ -612,9 +612,9 @@ function openLink(url) {
     }
 
     // Disable dragging on popups for mobile
-    if (!isMobile()) {
-        makePopupDraggable(lastPolygonPopup);
-    }
+    //if (!isMobile()) {
+    //    makePopupDraggable(lastPolygonPopup);
+    //}
     var markersCluster = L.markerClusterGroup();
     markers.forEach(marker => markersCluster.addLayer(marker));
     map.addLayer(markersCluster);
