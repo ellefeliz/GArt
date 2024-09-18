@@ -629,7 +629,7 @@ map.on('movestart', function () {
 });
 
 // Function to track the user's location once and store it
-map.locate({setView: true, maxZoom: 16, watch: false});
+map.locate({setView: true, maxZoom: 16, watch: true});
 
 map.on('locationfound', function (e) {
     currentLat = e.latlng.lat;
@@ -640,8 +640,6 @@ map.on('locationfound', function (e) {
     if (!userMovedMap) {
         map.setView([currentLat, currentLng], 16);
     }
-
-    // Add marker and circle at the user's location
 
 });
 
