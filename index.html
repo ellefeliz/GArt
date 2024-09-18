@@ -621,45 +621,45 @@ function openLink(url) {
     map.addLayer(markersCluster);
 
 
-    var userMovedMap = false;  // Track whether the user has moved the map
+var userMovedMap = false; // Track if user has moved the map
 
-// Initialize the map
-var map = L.map('map').setView([initialLat, initialLng], initialZoom);
-
-// Set up event listeners to detect user interactions (pan or zoom)
-map.on('move', function () {
-    userMovedMap = true;  // Set to true when the user moves the map
+// Detect if the user manually pans or zooms the map
+map.on('movestart', function () {
+    userMovedMap = true;  // Set flag to true when user moves the map
 });
 
-// Function to recenter the map to the user's location manually
-function recenterMap(lat, lng) {
-    userMovedMap = false;  // Reset the user move flag
-    map.setView([lat, lng], initialZoom);
-}
+// Geolocation to track current location
+map.locate({setView: true, maxZoom: 16, watch: true});
 
-// Geolocation to update the user's current location
-navigator.geolocation.watchPosition(function (position) {
-    var userLat = position.coords.latitude;
-    var userLng = position.coords.longitude;
+map.on('locationfound', function (e) {
+    var radius = e.accuracy / 2;
+    var userLat = e.latlng.lat;
+    var userLng = e.latlng.lng;
 
-    // Only center map if user hasn't moved it manually
+    // If the user hasn't manually moved the map, then recenter it
     if (!userMovedMap) {
-        map.setView([userLat, userLng], initialZoom);
+        map.setView(e.latlng, 16);  // Only set the view if the map hasn't been moved manually
     }
 
-    // Update user's current location marker
-    var userMarker = L.marker([userLat, userLng]).addTo(map);
-}, function (error) {
-    console.error("Error getting user's location", error);
-}, { enableHighAccuracy: true });
+    //L.marker(e.latlng).addTo(map)
+    //    .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
-// Optional: Add a button to recenter the map manually
-var recenterButton = L.control({position: 'topleft'});
-recenterButton.onAdd = function () {
-    var div = L.DomUtil.create('div', 'recenter-button');
-    div.innerHTML = '<button onclick="recenterMap(currentLat, currentLng)">Recenter</button>';
-    return div;
-};
-recenterButton.addTo(map);
+    L.circle(e.latlng, radius).addTo(map);
+});
+
+// Function to manually recenter map using a button
+function recenterMap(lat, lng) {
+    userMovedMap = false;  // Reset the user move flag
+    map.setView([lat, lng], 16); // Recenter the map
+}
+
+// Add a recenter button for manual recentering
+<!--var recenterButton = L.control({position: 'topleft'});-->
+<!--recenterButton.onAdd = function () {-->
+<!--    var div = L.DomUtil.create('div', 'recenter-button');-->
+<!--    div.innerHTML = '<button onclick="recenterMap(latLng, 15)">Recenter</button>';-->
+<!--    return div;-->
+<!--};-->
+<!--recenterButton.addTo(map);-->
 
 </script>
