@@ -507,7 +507,7 @@ var isRotationEnabled = false;  // Toggle for map rotation
             var lng = position.coords.longitude;
 
             // Move the map to user's location
-            map.setView([lat, lng]);
+            //map.setView([lat, lng]);
 
             // Add or update a marker for current location
             //if (!currentMarker) {
