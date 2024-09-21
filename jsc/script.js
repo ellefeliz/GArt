@@ -289,7 +289,8 @@ function openLink(url) {
         // Add new location marker
         currentLocationMarker = L.marker(latLng, { icon: blinkingIcon }).bindTooltip("You are here").addTo(map);
         if (!userMovedMap) {
-            map.setView(latLng, 16);
+            //map.setView(latLng, 16);
+            map.setView([42.9659028, -85.66846762085015],16); //Set View Center to Kendal College
         }
         //map.setView(latLng, 15); // Center the map on the current location
     }
@@ -327,7 +328,7 @@ function openLink(url) {
                 iconSize: [20, 20],
                 popupAnchor: [1, -34] // Position of the popup
             }));
-            map.setView(marker.getLatLng(), 15);
+            map.setView(marker.getLatLng(), 16);
         }
     }
 
@@ -460,9 +461,7 @@ const recenterButton = L.control({ position: 'topright' });
 
 recenterButton.onAdd = function (map) {
     const div = L.DomUtil.create('div', 'recenter-button');
-    div.innerHTML = '<button style="background-color: white; border: none; padding: 5px; cursor: pointer;">Recenter</button>';
-    div.style.backgroundColor = 'white';
-    div.style.padding = '5px';
+    div.innerHTML = '<button style="background-color: #04AA6D; font-size: 12px; width: 130px; color:white; padding: 12px 20px; outline: none !important; box-shadow: none !important; border:none !important;">Current Location</button>';
 
     // Add click event to recenter the map when button is clicked
     L.DomEvent.on(div, 'click', function (e) {
@@ -474,3 +473,24 @@ recenterButton.onAdd = function (map) {
 
 // Add the recenter button to the map
 recenterButton.addTo(map);
+
+
+// Add button to recenter on Art
+const cityCenterButton = L.control({ position: 'topright' });
+
+cityCenterButton.onAdd = function (map) {
+    const div = L.DomUtil.create('div', 'recenter-button');
+    div.innerHTML = '<button style="background-color: #04AA6D; font-size: 12px; width: 130px; color:white; padding: 12px 20px; outline: none !important; box-shadow: none !important; border:none !important;">City Center</button>';
+    //div.style.backgroundColor = 'white';
+    //div.style.padding = '5px';
+
+    // Add click event to recenter the map when button is clicked
+    L.DomEvent.on(div, 'click', function (e) {
+        map.setView([42.9659028, -85.66846762085015], 16); // Recenter the map
+    });
+
+    return div;
+};
+
+// Add the recenter button to the map
+cityCenterButton.addTo(map);
