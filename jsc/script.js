@@ -290,7 +290,7 @@ function openLink(url) {
         currentLocationMarker = L.marker(latLng, { icon: blinkingIcon }).bindTooltip("You are here").addTo(map);
         if (!userMovedMap) {
             //map.setView(latLng, 16);
-            map.setView([42.9659028, -85.66846762085015],16); //Set View Center to Kendal College
+            map.setView([42.9659028, -85.66846762085015],15); //Set View Center to Kendal College
         }
         //map.setView(latLng, 15); // Center the map on the current location
     }
@@ -328,7 +328,7 @@ function openLink(url) {
                 iconSize: [20, 20],
                 popupAnchor: [1, -34] // Position of the popup
             }));
-            map.setView(marker.getLatLng(), 16);
+            map.setView(marker.getLatLng(), 15);
         }
     }
 
@@ -461,11 +461,11 @@ const recenterButton = L.control({ position: 'topright' });
 
 recenterButton.onAdd = function (map) {
     const div = L.DomUtil.create('div', 'recenter-button');
-    div.innerHTML = '<button style="background-color: #04AA6D; font-size: 12px; width: 130px; color:white; padding: 12px 20px; outline: none !important; box-shadow: none !important; border:none !important;">Current Location</button>';
+    div.innerHTML = '<button style="background-color: #4CAF50; font-size: 12px; width: 130px; color:white; padding: 12px 20px; outline: none !important; box-shadow: none !important; border:none !important;cursor: pointer;box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);transition: background-color 0.3s ease, transform 0.3s ease;border-radius: 5px;">Current Location</button>';
 
     // Add click event to recenter the map when button is clicked
     L.DomEvent.on(div, 'click', function (e) {
-        map.setView([currentLat, currentLng], 16); // Recenter the map
+        map.setView([currentLat, currentLng], 15); // Recenter the map
     });
 
     return div;
@@ -480,13 +480,13 @@ const cityCenterButton = L.control({ position: 'topright' });
 
 cityCenterButton.onAdd = function (map) {
     const div = L.DomUtil.create('div', 'recenter-button');
-    div.innerHTML = '<button style="background-color: #04AA6D; font-size: 12px; width: 130px; color:white; padding: 12px 20px; outline: none !important; box-shadow: none !important; border:none !important;">City Center</button>';
+    div.innerHTML = '<button style="background-color: #4CAF50; font-size: 12px; width: 130px; color:white; padding: 12px 20px; outline: none !important; box-shadow: none !important; border:none !important;box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);transition: background-color 0.3s ease, transform 0.3s ease;border-radius: 5px;cursor: pointer;">City Center</button>';
     //div.style.backgroundColor = 'white';
     //div.style.padding = '5px';
 
     // Add click event to recenter the map when button is clicked
     L.DomEvent.on(div, 'click', function (e) {
-        map.setView([42.9659028, -85.66846762085015], 16); // Recenter the map
+        map.setView([42.9659028, -85.66846762085015], 15); // Recenter the map
     });
 
     return div;
@@ -494,3 +494,85 @@ cityCenterButton.onAdd = function (map) {
 
 // Add the recenter button to the map
 cityCenterButton.addTo(map);
+
+
+
+var isRotationEnabled = false;  // Toggle for map rotation
+    var currentMarker = null;  // To track the user marker
+
+    // Watch user's location and move the map
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+
+            // Move the map to user's location
+            map.setView([lat, lng]);
+
+            // Add or update a marker for current location
+            //if (!currentMarker) {
+            //    currentMarker = L.marker([lat, lng]).addTo(map);
+            //} else {
+            //    currentMarker.setLatLng([lat, lng]);
+            //}
+        }, function(error) {
+            console.error('Error getting location:', error);
+        });
+    }
+
+    // Handle device orientation to rotate the map
+    window.addEventListener('deviceorientation', function(event) {
+        if (isRotationEnabled) {
+            var alpha = event.alpha; // Compass heading in degrees (0 is north)
+
+            if (alpha !== null) {
+                // Rotate the map container using the heading
+                var mapContainer = document.getElementById('map');
+                mapContainer.classList.add('rotate-map');
+                mapContainer.style.transform = `rotate(${-alpha}deg)`;
+            }
+        }
+    });
+
+
+    // Handle device orientation to rotate the map
+    window.addEventListener('deviceorientation', function(event) {
+        if (!isRotationEnabled) return; // Don't rotate if the user has disabled it
+
+        var alpha = event.alpha; // Compass heading in degrees (0 is north)
+
+        if (alpha !== null) {
+            // Rotate the map container using the heading
+            var mapContainer = document.getElementById('map');
+            mapContainer.style.transform = `rotate(${-alpha}deg)`;
+        }
+    });
+
+    // Add custom control button for rotation
+    var rotateControl = L.Control.extend({
+        options: {
+            position: 'topright'  // Position of the button on the map
+        },
+
+        onAdd: function(map) {
+            // Create a container for the button
+            var container = L.DomUtil.create('div', 'leaflet-control-rotate');
+            container.innerHTML = 'Enable Rotation';
+
+            // Set up the button click handler
+            container.onclick = function() {
+                isRotationEnabled = !isRotationEnabled;
+                container.innerHTML = isRotationEnabled ? 'Disable Rotation' : 'Enable Rotation';
+
+                if (!isRotationEnabled) {
+                    // Reset the map rotation when turning off
+                    document.getElementById('map').style.transform = 'rotate(0deg)';
+                }
+            };
+
+            return container;
+        }
+    });
+
+    // Add the custom control to the map
+    map.addControl(new rotateControl());
