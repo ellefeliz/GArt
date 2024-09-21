@@ -47,6 +47,50 @@
         right: 0;
     }
 
+     /* Button for toggling rotation */
+        .rotate-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: white;
+            border: 2px solid black;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        /* Rotating the map using CSS */
+        .rotate-map {
+            transform-origin: center center;
+            transition: transform 0.5s ease;
+        }
+
+         /* Simple button styling */
+        #rotate-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border: 2px solid #000;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .leaflet-control-rotate {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            width: 90px;
+            padding: 10px 20px;
+            font-size: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+
+
     .leaflet-bar {
         box-shadow: none;
     }
