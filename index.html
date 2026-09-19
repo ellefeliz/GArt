@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html>
-<head> 
+<head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-N7TXG1VWM6"></script>
     <script>
@@ -228,7 +228,22 @@
     <a href="www.artprize.org"></a>
 </footer>
 <script src="jsc/script.js"></script>
-
+    <div id="splash-overlay" role="dialog" aria-modal="true" aria-labelledby="splash-title">
+        <div id="splash-card">
+            <button id="splash-close" aria-label="Close">&times;</button>
+            <h2 id="splash-title">Welcome to ArtWalk GR</h2>
+            <div id="splash-body">
+                <p>This map shows public art and venues around Grand Rapids you can explore in person.</p>
+                <ul>
+                    <li><strong>Tap a marker</strong> to see the venue's name, address, and a link with more details.</li>
+                    <li><strong>Tap "Recenter to Current Location"</strong> to find art near you.</li>
+                    <li><strong>Pinch or scroll</strong> to zoom in and explore different neighborhoods.</li>
+                </ul>
+                <p>Get out there and start exploring!</p>
+            </div>
+            <button id="splash-dismiss">Got it, let's explore</button>
+        </div>
+    </div>
 </body>
 
 </html>
