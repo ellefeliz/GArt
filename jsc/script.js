@@ -48,6 +48,9 @@ function openLink(url) {
     window.open(url, '_blank');
 }
 
+    // Render Splash
+    initArtwalkSplash();
+    
     // Markers for locations
     var markers = [
         L.marker([42.94313, -85.684821]).bindPopup("<strong><a href='https://www.artprize.org//venues#8cef12fd-94c7-45b4-914e-30cdb9e8b0e8' target='_blank' style='pointer-events: auto;' onclick='window.open(this.href); return false;'>1 1 1 1 Lady of The (b o i l e r) House</a></strong><br>Address:1111 Godfrey Ave SW • Grand Rapids", {permanent: false,direction: "top", className: "custom-tooltip", interactive: true, opacity:1.0 } ).on('click', function(e) {e.originalEvent.stopPropagation();}).addTo(map),
@@ -553,9 +556,6 @@ var isRotationEnabled = false;  // Toggle for map rotation
             container.onclick = function() {
                 isRotationEnabled = !isRotationEnabled;
                 container.innerHTML = isRotationEnabled ? 'Disable Rotation' : 'Enable Rotation';
-
-                // Render Splash
-                initArtwalkSplash();
 
                 if (!isRotationEnabled) {
                     // Reset the map rotation when turning off
