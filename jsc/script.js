@@ -554,6 +554,9 @@ var isRotationEnabled = false;  // Toggle for map rotation
                 isRotationEnabled = !isRotationEnabled;
                 container.innerHTML = isRotationEnabled ? 'Disable Rotation' : 'Enable Rotation';
 
+                // Render Splash
+                initArtwalkSplash();
+
                 if (!isRotationEnabled) {
                     // Reset the map rotation when turning off
                     document.getElementById('map').style.transform = 'rotate(0deg)';
