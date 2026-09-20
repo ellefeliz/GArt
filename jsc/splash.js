@@ -73,7 +73,7 @@ function initArtwalkSplash() {
   overlay.innerHTML = `
     <div id="splash-card">
       <button id="splash-close" aria-label="Close">&times;</button>
-      <h2 id="splash-title">Welcome to ArtWalk GR</h2>
+      <h2 id="splash-title">Welcome to Art Walk GR</h2>
       <div id="splash-body">
         <p>This map shows public art and venues around Grand Rapids you can explore in person.</p>
         <ul>
